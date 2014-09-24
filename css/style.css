@@ -5,6 +5,9 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
+#logo_div {
+  background-color: #FFF;
+}
 #logo_div div {
   display: inline;
 }
