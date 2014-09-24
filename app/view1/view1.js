@@ -10,5 +10,10 @@ angular.module('myApp.view1', ['ngRoute'])
 }])
 
 .controller('View1Ctrl', [function() {
-
+	$scope.dataList = 
+			{name:'Winnie',
+			filename:'newFile', 
+			filetype:'word',
+			contactInfo:'54418418'};	
+		
 }]);
