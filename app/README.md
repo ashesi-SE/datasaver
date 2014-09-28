@@ -8,3 +8,4 @@ Story Templates
 3. As a movie addict, I want to know who has the latest episode of Game of Thrones so that I can copy it.
 4. As a gamer, I would like to know who has the latest FIFA game so that I can copy it.
 5. As a programmer, I want to get copies of software without downloading them from the internet so that I can protect my computer from viruses. 
+
