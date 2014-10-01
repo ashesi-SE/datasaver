@@ -20,9 +20,9 @@ Payoff Scenario
 
    Payoff
    -------------
-   •	Time spent on downloading videos is shortened (The video can be copied directly using a pen drive)
-   •	The speed of the internet becomes faster
-   •	The bandwidth is saved
+   1.	Time spent on downloading videos is shortened (The video can be copied directly using a pen drive)
+   2.	The speed of the internet becomes faster
+   3.	The bandwidth is saved
 
 Team Members
 ---------------------
