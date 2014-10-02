@@ -13,19 +13,19 @@
     ========================================================  */
 
 
-(function ($) {
+/*(function ($) {
     "use strict";
     var mainApp = {
 
         main_fun: function () {
-            /*====================================
-            METIS MENU 
-            ======================================*/
+          
+          //  METIS MENU 
+           
             $('#main-menu').metisMenu();
 
-            /*====================================
-              LOAD APPROPRIATE MENU BAR
-           ======================================*/
+           
+              //LOAD APPROPRIATE MENU BAR
+           
             $(window).bind("load resize", function () {
                 if ($(this).width() < 768) {
                     $('div.sidebar-collapse').addClass('collapse')
@@ -52,3 +52,4 @@
     });
 
 }(jQuery));
+*/
