@@ -1,0 +1,1 @@
+Describe what you are building the project in from a tech perspective, and how the pieces fit together.  Have a link to your architecture worksheet (a separate page) describe below in terms of its context.
