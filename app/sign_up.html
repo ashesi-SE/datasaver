@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
+<script>
+
+</script>
 
 <head>
     <meta charset="utf-8" />
@@ -18,10 +21,12 @@
 </head>
 
 <body>
+
+
     <div id="wrapper">
         <div class="col-xs-10 col-xs-offset-1  col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
             <div class="signup-main">
-                <form>
+                <form action="datasaverlogin.php"  method="post">
                     <div class="text-center">
                         <img src="assets/img/data_saver.png" class="text-center">
                     </div>
@@ -30,16 +35,17 @@
                     </div>
 
                     <div class="input-group col-xs-12 padding-10">
-                        <input id="btn-input" type="text" class="form-control input-md margin-10" placeholder="username">
-                        <input id="btn-input" type="text" class="form-control input-md margin-10" placeholder="Firstname">
-                        <input id="btn-input" type="text" class="form-control input-md margin-10" placeholder="Lastname">
-                        <input id="btn-input" type="email" class="form-control input-md margin-10" placeholder="E-mail">
-                        <input id="btn-input" type="tel" class="form-control input-md margin-10" placeholder="Phone Number">
-                        <input id="btn-input" type="password" class="form-control input-md margin-10" placeholder="Password">
-                        <input id="btn-input" type="password" class="form-control input-md margin-10" placeholder="Confirm Password">
+                        <input type="text" class="form-control input-md margin-10" placeholder="username" name="usernamed" >
+                        <input type="text" class="form-control input-md margin-10" placeholder="Firstname" name="Firstname">
+                        <input type="text" class="form-control input-md margin-10" placeholder="Lastname" name="Lastname">
+                        <input type="email" class="form-control input-md margin-10" placeholder="E-mail" name="email">
+                        <input type="tel" class="form-control input-md margin-10" placeholder="Phone Number" name="phone">
+                        <input type="password" class="form-control input-md margin-10" placeholder="Password" name="password">
+                        <input type="password" class="form-control input-md margin-10" placeholder="Confirm Password" name="confirm">
+						<button class="margin-10 padding-10 col-xs-12 btn btn-success" name="submit" >Submit</button>
+
                     </div>
                 </form>
-                <button class="margin-10 padding-10 col-xs-12 btn btn-success">Submit</button>
             </div>
 
 
