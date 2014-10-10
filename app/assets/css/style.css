@@ -48,3 +48,7 @@ body {
 .form-inline .checkbox {
   margin-top: 5px;
 }
+
+.alert{
+  display: none;
+}
