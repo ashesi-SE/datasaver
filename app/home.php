@@ -8,7 +8,6 @@
     DEFINE('DBPW', 'db!bed26a');
     DEFINE('DBHOST', 'localhost');
     DEFINE('DBNAME', 'csashesi_mohammed-abdulai');
-
     $conn = mysql_connect(DBHOST, DBUSER, DBPW);
 
     if (!$conn) {
@@ -26,6 +25,17 @@
         $email = $_SESSION['email'];
         $contact = $_SESSION['phone'];
     }
+
+    $db = mysql_select_db(DBNAME, $conn) or die(mysql_error());
+
+        if($db){
+            $query = "SELECT * FROM data_saver_files ORDER BY date_added DESC LIMIT 5" ;
+            $recent = mysql_query($query);
+            $num_rows = mysql_num_rows($recent);
+        }
+        else{
+            $errorMessage = "Error";
+        }
 ?>
 
 <!DOCTYPE html>
@@ -35,16 +45,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Data Saver : Home</title>
-    <!--icon-->
+    
     <link href="assets/img/data_saver.png" rel="icon" />
-    <!-- BOOTSTRAP STYLES-->
     <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <!-- FONTAWESOME STYLES-->
     <link href="assets/css/font-awesome.css" rel="stylesheet" />
-    <!-- CUSTOM STYLES-->
     <link href="assets/css/datasaver.css" rel="stylesheet" />
-    <!-- GOOGLE FONTS-->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+
 </head>
 
 <body>
@@ -76,7 +83,7 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle " data-toggle="dropdown">Options<span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">My Files</a></li>
+                            <li><a href="User_Page.php">My Files</a></li>
                             <li><a href="#">My Account</a></li>
                             <li class="divider"></li>
                             <li><a href="index.php">Logout</a></li>
@@ -111,75 +118,65 @@
                     <input class="margin-10 padding-10 col-xs-12 btn btn-primary" type="submit" value="Search" name="submit" id="submit">
                 </form>
                 
+                    <a class="btn btn-success navbar-btn margin-10 padding-10 col-xs-12" href="#recent_files" TYPE="submit" VALUE="View Recent Uploads">View Recent Uploads</a>
+                    
+                    
+                
             </div>
         </div>
     </div>
     
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
+ 
 
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span aria-hidden="true">&times;</span>
-                        <span class="sr-only">Close</span>
-                    </button>
-                    <h4 class="modal-title, text-center">Add A New File</h4>
+    <section  id="recent_files">
+            <div  class="col-sm-8 col-sm-offset-2 text-center">
+                <h3>Recently Added</h3>
+            </div>
+    <div class="container">
+        <div class="col-xs-10 col-xs-offset-1  col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3">
+
+            
+                <?php while ($info = mysql_fetch_array($recent)) { ?>
+                <div  class="col-sm-8 col-sm-offset-2 searchlist">
+                    <div class="searcheditem">
+                        
+                            <?php 
+                                        $id = $info['file_id'];
+                                        $file_name = $info['name'];
+                                        $description = $info['description'];
+                                        $full_name = $info['full_name'];
+                                        $email = $info['email'];
+                                        $contact = $info['contact']; 
+                                        $_SESSION['deleteId'] = $id;
+                            ?>
+                                        <!-- <h3><?php echo $file_name; ?></h3>
+                                        <p><?php echo $description ?></p> -->
+
+                            <div class="row text-center">
+                                <!-- <div class="col-sm-6 col-md-4"> -->
+                                    <div class="thumbnail">
+                                        <div class="caption">
+                                            <h3><?php echo $file_name?></h3>
+                                            <p><?php echo $description ?></p>
+                                            <p><?php echo $full_name ?></p>
+                                            <ul class='list-unstyled list-inline dateComments'>
+                                                <li><span class='glyphicon glyphicon-earphone'></span>&#32; Contact Number: <?php echo $contact ?></li>
+                                                <li><a href="mailto:<?php echo $email ?>"><span class="glyphicon glyphicon-envelope"></span>&#32;<?php echo $email ?></a></li>
+                                            </ul> 
+                                        </div>
+                                    </div>
+                                <!-- </div> -->
+                            </div>
+                        
+                    </div>
                 </div>
+                <?php } ?>
+           
 
-                <div class="modal-body">
-                    <form method = "post" action= "home.php">
-
-                        <div class="input-group col-xs-12 padding-10">
-                            <input id="btn-input" name = "file_name"type="text" class="form-control input-md margin-10" placeholder="File Name" value: "A Thousand Splendid Suns">
-                            <input id="btn-input" name = "description" type="text" class="form-control input-md margin-10" placeholder="Short Description">
-
-                            <form class="form">
-                                <div class="form-group">
-                                    <label class="radio-inline">File Type: </label>
-                                    <label class="radio-inline">
-                                        <input type="radio" id="1" name="pdf" value="pdf"> PDF
-                                    </label>
-                                    <label class="radio-inline">
-                                        <input type="radio" id="2" name="epub" value="pdf"> EPUB
-                                    </label>
-                                    <label class="radio-inline">
-                                        <input type="radio" id="3" name="video" value="pdf"> Video
-                                    </label>
-                                    <label class="radio-inline">
-                                        <input type="radio" id="4" name="audio" value="pdf"> Audio
-                                    </label>
-                                    <label class="radio-inline">
-                                        <input type="radio" id="5" name="image" value="pdf"> Image
-                                    </label> 
-                                </div>
-                            </form>
-
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <input class="btn btn-primary" data-dismiss="modal" type="submit" onClick="$('form').submit();">
-                        </div>   
-                    </form>
-                </div>
-
-                <?php 
-                    $query = "INSERT INTO data_saver_files(name, type, description, full_name, email, contact) VALUES('$name', '$file_type', '$description','$fullname', '$email', '$contact')";
-                    echo "alert($query)";
-                    if(!mysql_query($query, $conn)){
-                        die('Error: ' . mysql_error());
-                    }
-
-                    echo "File Post Succesful";
-                    mysql_close($conn);
-
-                 ?>
-
-                
-
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+        </div>
+    </div>
+    </section>
+    
 
     <!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
     <!-- JQUERY SCRIPTS -->
@@ -188,7 +185,15 @@
     <script src="assets/js/bootstrap.min.js"></script>
     <!-- CUSTOM SCRIPTS -->
     <script src="assets/js/custom.js"></script>
+    <script src="assets/js/custom.js"></script>
+    <script>
 
+    // function sendRequest() {
+    //             new Ajax.Updater('show_results', 'results.php', { method: 'post', parameters: $('searchform').serialize() });
+    //         }
+    // </script>
+   
+         
 
 </body>
 

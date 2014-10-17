@@ -87,7 +87,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Options
                             <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">My Files</a></li>
+                            <li><a href="User_Page.php">My Files</a></li>
                             <li><a href="#">My Account</a></li>
                             <li class="divider"></li>
                             <li><a href="index.html">Logout</a></li>
@@ -100,18 +100,18 @@
     
  
 
-<div id = "wrapper">
+<div id = "container">
+    <div class="row">
     <div class="col-xs-10 col-xs-offset-1  col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
-        <div class="signup">
+        
             <div class="text-center">
                 <img src="assets/img/data_saver.png" class="text-center">
             </div>
-            <div class="container-fluid">
-                <div class="row">
+
+            <?php  while ($info = mysql_fetch_array($result)) { ?>
     	            <div  class="col-sm-8 col-sm-offset-2 searchlist">
     		            <div class="searcheditem">
                             <?php 
-                               while ($info = mysql_fetch_array($result)) {
                                     $file_name = $info['name'];
                                     $description = $info['description'];
                                     $full_name = $info['full_name'];
@@ -126,15 +126,12 @@
                                         <li><a href="mailto:<?php echo $email ?>"><span class="glyphicon glyphicon-envelope"></span>&#32;<?php echo $email ?></a>
                                         </li>
                                     </ul> 
-                            <?php
-                                } 
-                             ?>
                         </div>
     	           </div>
-                </div>
-            </div>
-        </div>
+            <?php } ?>
+
     </div>
+</div>
 </div>
 <!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
     <!-- JQUERY SCRIPTS -->
