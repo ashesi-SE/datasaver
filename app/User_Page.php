@@ -15,6 +15,7 @@
     DEFINE('DBNAME', 'datasaver');
    
     $errorMessage = "";
+	
 
     //if($_SERVER["REQUEST_METHOD"] == "POST"){
 
@@ -159,8 +160,8 @@
 			<div class="container-fluid">
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav navbar-left">
-						<li><a href="home.php">Search</a></li>
-						<li><a href="add.php">Add</a></li>
+						<li><a href="home.php">Home</a></li>
+						
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 						<li><a href="#">Logged in as: 
@@ -173,7 +174,7 @@
 							<a href="#" class="dropdown-toggle " data-toggle="dropdown">Options<span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
 								<li><a href="#">My Files</a></li>
-								<li><a href="#">My Account</a></li>
+								
 								<li class="divider"></li>
 								<li><a href="index.php">Logout</a></li>
 							</ul>

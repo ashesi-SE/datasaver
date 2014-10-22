@@ -3,11 +3,17 @@
     if (!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
         header ("Location: index.php");
     }
-
+/*
     DEFINE('DBUSER', 'csashesi_ma15');
     DEFINE('DBPW', 'db!bed26a');
     DEFINE('DBHOST', 'localhost');
-    DEFINE('DBNAME', 'csashesi_mohammed-abdulai');
+    DEFINE('DBNAME', 'csashesi_mohammed-abdulai');*/
+	
+	DEFINE('DBUSER', 'root');
+    DEFINE('DBPW', 'Dream1234');
+    DEFINE('DBHOST', 'localhost');
+    DEFINE('DBNAME', 'datasaver');
+	
     $conn = mysql_connect(DBHOST, DBUSER, DBPW);
 
     if (!$conn) {
@@ -21,9 +27,10 @@
         $name = $_POST[file_name];
         $file_type = "pdf";
         $description = $_POST[description];
-        $fullname = $_SESSION['firstname']." ".$_SESSION['lastname'];
-        $email = $_SESSION['email'];
-        $contact = $_SESSION['phone'];
+		$username = $_SESSION['username'];
+        $fullnameS = $_SESSION['firstname']." ".$_SESSION['lastname'];
+        $emailS = $_SESSION['email'];
+        $contactS = $_SESSION['phone'];
     }
 
     $db = mysql_select_db(DBNAME, $conn) or die(mysql_error());
@@ -50,7 +57,42 @@
     <link href="assets/css/bootstrap.css" rel="stylesheet" />
     <link href="assets/css/font-awesome.css" rel="stylesheet" />
     <link href="assets/css/datasaver.css" rel="stylesheet" />
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+    <!--<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' /> -->
+	
+	<script>
+		
+		function syncAjax(u){
+			var obj= $.ajax(
+				{url:u,
+				 async:false
+				}
+			);
+			return $.parseJSON(obj.responseText);
+		}
+		
+		function saveAdd(){
+			var fullname = document.getElementById("uFullname").value;
+			var contact = document.getElementById("uContact").value;
+			var email = document.getElementById("uEmail").value;
+			var filename = document.getElementById("fileName").value;
+			var filetype = document.getElementById("fileType").value;
+			var description = document.getElementById("descrip").value;
+			var date = Date();
+			alert(date);
+			
+			var u = "dataAction.php?cmd=4&fName="+filename+"&description="+description+"&fileType="+filetype+"&fullname="+fullname+"&email="+email+"&contact="+contact;
+				
+			var r = syncAjax(u);
+					
+			if(r.result == 0){
+				// not successful
+			}else if(r.result ==1){
+				//successful
+				location.reload();
+			}
+		}
+				
+	</script>
 
 </head>
 
@@ -69,9 +111,8 @@
         <div class="container-fluid">
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-left">
-                        <FORM METHOD="LINK" ACTION="add.php">
-                            <INPUT class="btn btn-success navbar-btn" TYPE="submit" VALUE="Add A New File">
-                        </FORM>
+                    <a data-toggle='modal' data-target='#addModal' href='#'><button class="btn btn-success navbar-btn" >Add a File</button></a>
+                        
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="#">Logged in as: 
@@ -84,7 +125,6 @@
                         <a href="#" class="dropdown-toggle " data-toggle="dropdown">Options<span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="User_Page.php">My Files</a></li>
-                            <li><a href="#">My Account</a></li>
                             <li class="divider"></li>
                             <li><a href="index.php">Logout</a></li>
                         </ul>
@@ -93,11 +133,47 @@
             </div>
         </div>
     </nav>
-        
-    
+        <!-- add Modal -->
+     <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				  <div class="modal-dialog">
+					<div class="modal-content">
+					  <div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+						<h4 class="modal-title" id="myModalLabel">Add FileName</h4>
+					  </div>
+					  <div class="modal-body">
+						<table class="table table-bordered table-hover">
+							
+							<input type="text" value="<?php echo $_SESSION['firstname']." ".$_SESSION['lastname']; ?>" id="uFullname">
+							<input type="hidden" value="<?php echo $_SESSION['phone']; ?>" id="uContact">
+							<input type="hidden" value="<?php echo $_SESSION['email']; ?>" id="uEmail">
+							
+							<tr>
+								<th>File name</th>
+								<td><input type="text" value="" id="fileName" class="field "></td>
+							</tr>
+							
+							<tr>
+								<th>File Type</th>
+								<td><input type="text" value="" id="fileType" class="field "></td>
+							</tr>
+							<tr>
+								<th >Description </th>
+								<td><input type="text" value="" id="descrip" class="field"></td>
+							</tr>
+							
+						</table>
+					  </div>
+					  <div class="modal-footer">
+						<button type="button" onclick="saveAdd()" class="btn btn-primary">Add</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+					  </div>
+					</div>
+				  </div>
+			</div> 
     <div id="wrapper">
         <div class="col-xs-10 col-xs-offset-1  col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
-            <div class="signup">
+            <div >
                 
                 <form action= "results.php" method = "post" id="searchform">
                     <div class="text-center">
@@ -106,76 +182,50 @@
                     <div class="input-group col-xs-12 padding-10">
                         <input id="btn-input" name = "search" type="text" class="form-control input-md margin-10" placeholder="Search...">
                     </div>
-                    
-                   <!--  <div class="btn-group btn-group-justified">
-
-                         <div class="btn-group">
-                            <button type="button" class="btn btn-primary btn-lg">
-                                <span class="glyphicon glyphicon-search"></span> Search
-                            </button>
-                         </div>
-                    </div> -->
                     <input class="margin-10 padding-10 col-xs-12 btn btn-primary" type="submit" value="Search" name="submit" id="submit">
                 </form>
-                
-                    <a class="btn btn-success navbar-btn margin-10 padding-10 col-xs-12" href="#recent_files" TYPE="submit" VALUE="View Recent Uploads">View Recent Uploads</a>
-                    
-                    
-                
+               
             </div>
         </div>
     </div>
     
- 
-
-    <section  id="recent_files">
-            <div  class="col-sm-8 col-sm-offset-2 text-center">
-                <h3>Recently Added</h3>
-            </div>
-    <div class="container">
-        <div class="col-xs-10 col-xs-offset-1  col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3">
-
-            
-                <?php while ($info = mysql_fetch_array($recent)) { ?>
-                <div  class="col-sm-8 col-sm-offset-2 searchlist">
-                    <div class="searcheditem">
-                        
-                            <?php 
-                                        $id = $info['file_id'];
-                                        $file_name = $info['name'];
-                                        $description = $info['description'];
-                                        $full_name = $info['full_name'];
-                                        $email = $info['email'];
-                                        $contact = $info['contact']; 
-                                        $_SESSION['deleteId'] = $id;
-                            ?>
-                                        <!-- <h3><?php echo $file_name; ?></h3>
-                                        <p><?php echo $description ?></p> -->
-
-                            <div class="row text-center">
-                                <!-- <div class="col-sm-6 col-md-4"> -->
-                                    <div class="thumbnail">
-                                        <div class="caption">
-                                            <h3><?php echo $file_name?></h3>
-                                            <p><?php echo $description ?></p>
-                                            <p><?php echo $full_name ?></p>
-                                            <ul class='list-unstyled list-inline dateComments'>
-                                                <li><span class='glyphicon glyphicon-earphone'></span>&#32; Contact Number: <?php echo $contact ?></li>
-                                                <li><a href="mailto:<?php echo $email ?>"><span class="glyphicon glyphicon-envelope"></span>&#32;<?php echo $email ?></a></li>
-                                            </ul> 
-                                        </div>
-                                    </div>
-                                <!-- </div> -->
-                            </div>
-                        
-                    </div>
-                </div>
-                <?php } ?>
-           
+        <div class="container">
+				<div  class="col-sm-8 col-sm-offset-2 text-center">
+					<h3>Recently Added</h3>
+				</div>
+				<table class="table table-bordered table-hover">
+					<th>File Name </th>
+					<th>File Description </th>
+					<th> User Name </th>
+					<th> Email </th>
+					<th> Phone </th>
+					
+                <?php 
+				$info = mysql_fetch_array($recent);
+				while ($info ) {
+					
+					$id = $info['file_id'];
+                    /*$file_name = $info['name'];
+                    $description = $info['description'];
+                    $full_name = $info['full_name'];*/
+                    $email = $info['email'];
+                  //  $contact = $info['contact']; 
+					
+					echo "<tr><td id='filename'>".$info['name']."</td>";
+					echo "<td id='description'>".$info['description']."</td>";
+					echo "<td id='fullname'>".$info['full_name']."</td>";
+					echo "<td id='email'><a href='mailto:$email'>".$info['email']."</a></td>";
+					echo "<td id='contact'>".$info['contact']."</td></tr>";
+									
+					$info = mysql_fetch_array($recent);
+					}
+                    //$_SESSION['deleteId'] = $id;
+               ?>
+           </table>
 
         </div>
     </div>
-    </section>
+    
     
 
     <!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->

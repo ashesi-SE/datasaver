@@ -2,11 +2,16 @@
 
     // session_start();
     // session_destroy();
-
+/*
     DEFINE('DBUSER', 'csashesi_ma15');
     DEFINE('DBPW', 'db!bed26a');
     DEFINE('DBHOST', 'localhost');
-    DEFINE('DBNAME', 'csashesi_mohammed-abdulai');
+    DEFINE('DBNAME', 'csashesi_mohammed-abdulai');*/
+	
+	DEFINE('DBUSER', 'root');
+    DEFINE('DBPW', 'Dream1234');
+    DEFINE('DBHOST', 'localhost');
+    DEFINE('DBNAME', 'datasaver');
 
     $username = "";
     $password = "";
@@ -93,7 +98,7 @@
     <!-- CUSTOM STYLES-->
     <link href="assets/css/datasaver.css" rel="stylesheet" />
     <!-- GOOGLE FONTS-->
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+   <!-- <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' /> -->
 </head>
 
 <body>
@@ -178,5 +183,6 @@
 
     function loadUserProfile($username){
         $_SESSION['username'] = $username; 
+		//$_SESSION['fullname'] = $fullname;
     }
  ?>
