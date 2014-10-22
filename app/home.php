@@ -3,16 +3,16 @@
     if (!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
         header ("Location: index.php");
     }
-/*
+
     DEFINE('DBUSER', 'csashesi_ma15');
     DEFINE('DBPW', 'db!bed26a');
     DEFINE('DBHOST', 'localhost');
-    DEFINE('DBNAME', 'csashesi_mohammed-abdulai');*/
+    DEFINE('DBNAME', 'csashesi_mohammed-abdulai');
 	
-	DEFINE('DBUSER', 'root');
-    DEFINE('DBPW', 'Dream1234');
-    DEFINE('DBHOST', 'localhost');
-    DEFINE('DBNAME', 'datasaver');
+	// DEFINE('DBUSER', 'root');
+ //    DEFINE('DBPW', 'Dream1234');
+ //    DEFINE('DBHOST', 'localhost');
+ //    DEFINE('DBNAME', 'datasaver');
 	
     $conn = mysql_connect(DBHOST, DBUSER, DBPW);
 
@@ -111,7 +111,7 @@
         <div class="container-fluid">
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-left">
-                    <a data-toggle='modal' data-target='#addModal' href='#'><button class="btn btn-success navbar-btn" >Add a File</button></a>
+                    <a data-toggle='modal' data-target='#addModal' href='#'><button class="btn btn-success navbar-btn" >Add New Post</button></a>
                         
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
@@ -144,7 +144,7 @@
 					  <div class="modal-body">
 						<table class="table table-bordered table-hover">
 							
-							<input type="text" value="<?php echo $_SESSION['firstname']." ".$_SESSION['lastname']; ?>" id="uFullname">
+							<input type="hidden" value="<?php echo $_SESSION['firstname']." ".$_SESSION['lastname']; ?>" id="uFullname">
 							<input type="hidden" value="<?php echo $_SESSION['phone']; ?>" id="uContact">
 							<input type="hidden" value="<?php echo $_SESSION['email']; ?>" id="uEmail">
 							
@@ -159,13 +159,13 @@
 							</tr>
 							<tr>
 								<th >Description </th>
-								<td><input type="text" value="" id="descrip" class="field"></td>
+								<td><textarea type="text" value="" id="descrip" class="field"></textarea></td>
 							</tr>
 							
 						</table>
 					  </div>
 					  <div class="modal-footer">
-						<button type="button" onclick="saveAdd()" class="btn btn-primary">Add</button>
+						<button type="button" onclick="saveAdd()" class="btn btn-primary">Add Post</button>
 						<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
 					  </div>
 					</div>
@@ -176,7 +176,7 @@
             <div >
                 
                 <form action= "results.php" method = "post" id="searchform">
-                    <div class="text-center">
+                    <div class="text-center jumbotron">
                         <img src="assets/img/data_saver.png" class="text-center">
                     </div>
                     <div class="input-group col-xs-12 padding-10">

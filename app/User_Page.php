@@ -3,16 +3,16 @@
     if (!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
         header ("Location: User_Page.php");
     }
-/*
+
     DEFINE('DBUSER', 'csashesi_ma15');
     DEFINE('DBPW', 'db!bed26a');
     DEFINE('DBHOST', 'localhost');
-    DEFINE('DBNAME', 'csashesi_mohammed-abdulai');*/
+    DEFINE('DBNAME', 'csashesi_mohammed-abdulai');
 	
-	DEFINE('DBUSER', 'root');
-    DEFINE('DBPW', 'Dream1234');
-    DEFINE('DBHOST', 'localhost');
-    DEFINE('DBNAME', 'datasaver');
+	// DEFINE('DBUSER', 'root');
+ //    DEFINE('DBPW', 'Dream1234');
+ //    DEFINE('DBHOST', 'localhost');
+ //    DEFINE('DBNAME', 'datasaver');
    
     $errorMessage = "";
 	
@@ -198,16 +198,24 @@
 					<table class="table table-bordered table-hover">
 						<th>File Name </th>
 						<th>File Description </th>
+						<th></th>
 						<?php
 							$info = mysql_fetch_array($result);
-							while($info){
-								$fileID = $info['file_id'];
-								
-								echo "<tr><td id='filename'>".$info['name']."</td>";
-									echo "<td id='description'>".$info['description']."</td>";
-									echo "<td><a data-toggle='modal' data-target='#myModal' href='#'><button type='button' onclick='popupEditUser($fileID);' class='btn btn-info'>Edit</button></td>";
-									echo "<td><a data-toggle='modal' data-target='#deleteModal' href='#'><button type='button' onclick='deletePop($fileID);' class='btn btn-danger'>Delete</button></a></td></tr>";
-									$info = mysql_fetch_array($result);
+							if(!$info){
+								echo "<table class='table'><tr><td class='text-center'>You have not added any posts. </td></tr>";
+								echo "<tr ><td class='text-center'><a href='home.php'>Go Back Home </a></td></tr>";
+								echo "</table>";
+
+							}else{
+								while($info){
+									$fileID = $info['file_id'];
+									
+									echo "<tr><td id='filename'>".$info['name']."</td>";
+										echo "<td id='description'>".$info['description']."</td>";
+										echo "<td><a data-toggle='modal' data-target='#myModal' href='#'><button type='button' onclick='popupEditUser($fileID);' class='btn btn-info'>Edit</button></td>";
+										echo "<td><a data-toggle='modal' data-target='#deleteModal' href='#'><button type='button' onclick='deletePop($fileID);' class='btn btn-danger'>Delete</button></a></td></tr>";
+										$info = mysql_fetch_array($result);
+								}
 							}
 						?>
 					</table>
@@ -232,7 +240,7 @@
 							</tr>
 							<tr>
 								<th >Description </th>
-								<td><input type="text" value="" id="descrip" class="field"></td>
+								<td><textarea type="text" value="" id="descrip" class="field"></textarea></td>
 							</tr>
 							
 						</table>

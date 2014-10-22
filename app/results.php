@@ -3,16 +3,16 @@
     if (!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
         header ("Location: index.php");
     }
-/*
+
     DEFINE('DBUSER', 'csashesi_ma15');
     DEFINE('DBPW', 'db!bed26a');
     DEFINE('DBHOST', 'localhost');
-    DEFINE('DBNAME', 'csashesi_mohammed-abdulai');*/
+    DEFINE('DBNAME', 'csashesi_mohammed-abdulai');
 	
-	DEFINE('DBUSER', 'root');
-    DEFINE('DBPW', 'Dream1234');
-    DEFINE('DBHOST', 'localhost');
-    DEFINE('DBNAME', 'datasaver');
+	// DEFINE('DBUSER', 'root');
+ //    DEFINE('DBPW', 'Dream1234');
+ //    DEFINE('DBHOST', 'localhost');
+ //    DEFINE('DBNAME', 'datasaver');
 
     $search = "";
     $errorMessage = "";

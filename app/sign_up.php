@@ -2,16 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <?php 
-/*
+
     DEFINE('DBUSER', 'csashesi_ma15');
     DEFINE('DBPW', 'db!bed26a');
     DEFINE('DBHOST', 'localhost');
-    DEFINE('DBNAME', 'csashesi_mohammed-abdulai'); */
+    DEFINE('DBNAME', 'csashesi_mohammed-abdulai'); 
 
-	DEFINE('DBUSER', 'root');
-    DEFINE('DBPW', 'Dream1234');
-    DEFINE('DBHOST', 'localhost');
-    DEFINE('DBNAME', 'datasaver');
+	// DEFINE('DBUSER', 'root');
+ //    DEFINE('DBPW', 'Dream1234');
+ //    DEFINE('DBHOST', 'localhost');
+ //    DEFINE('DBNAME', 'datasaver');
 	
     $conn = mysql_connect(DBHOST, DBUSER, DBPW);
 
@@ -23,13 +23,24 @@
 
     // $username = $fname = $lname = $email = $phone = $pword = "";
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $username = test_input($_POST[username]);
-        $fname = test_input($_POST[firstname]);
-        $lname = test_input($_POST[lastname]);
-        $email = test_input($_POST[email]);
-        $phone = test_input($_POST[phone]);
-        $pword = test_input(md5($_POST[password]));
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if(validateName(test_input($_POST[username]))){
+            $username = test_input($_POST[username]);}
+            
+        if(validateName(test_input($_POST[firstname]))){
+            $fname = test_input($_POST[firstname]);}
+            
+        if (validateName(test_input($_POST[lastname]))){
+            $lname = test_input($_POST[lastname]);}
+            
+        if (validateEmail(test_input($_POST[email]))){
+            $email = test_input($_POST[email]);}
+            
+        if (validatePhoneNumber(test_input($_POST[phone]))){    
+        $phone = test_input($_POST[phone]);}
+        
+        if (validatePassword(test_input($_POST[password]),test_input($_POST[confirm_password]))){
+        $pword = test_input(md5($_POST[password]));}
     }
 
     function test_input($data){
@@ -84,7 +95,8 @@
             </div>
 
             <?php 
-                $query = "INSERT INTO data_saver_users(username, firstname, lastname, email, phone, password) VALUES('$username', '$fname', '$lname', '$email', '$phone', '$pword')";
+                if(!empty($pword )){
+                $query = "INSERT INTO data_saver_users(username, firstname, lastname, email, phone, password) VALUES('$username', '$fname', '$lname', '$email', '$phone', '$pword')";}
 
 
                 if(!mysql_query($query, $conn)){
@@ -134,3 +146,68 @@
 </body>
 
 </html>
+<?php
+
+    function validateName($name){
+        if (empty($name)){
+            $message = "Name fields cannot be blank";
+            echo "<script type='text/javascript'>alert('$message');</script>";
+            return false;}
+        else if (!preg_match("/^[a-zA-Z ]*$/",$name)){
+            $message = "Name fields must contain only alphabets";
+            echo "<script type='text/javascript'>alert('$message');</script>";
+            return false;
+        }
+
+        return true;
+
+    }
+
+    function  validateEmail($email){
+        if (empty($email)){
+            $message = "E-mail cannot be left blank";
+            echo "<script type='text/javascript'>alert('$message');</script>";
+            return false;
+        }
+
+        else if (!filter_var($email, FILTER_VALIDATE_EMAIL)){
+            $message = "The email must be in the name@domain format";
+            echo "<script type='text/javascript'>alert('$message');</script>";
+            return false;
+        }
+
+        return true;
+    }
+
+
+    function validatePhoneNumber($tel){
+        if (empty($tel)){
+            $message = "Phone cannot be left blank";
+            echo "<script type='text/javascript'>alert('$message');</script>";
+            return false;
+        }
+        if (!preg_match('/(0[0-9]{9})/', $tel)){
+            $message = "Phone number does not add up to 10"." Must contain only numbers";   
+            echo "<script type='text/javascript'>alert('$message');</script>";
+            return false;}
+
+        return true;
+
+
+    }
+
+    function validatePassword($password,$pass){
+        if((empty($password)) || (empty($pass)) ){
+            $message = "Either fields for the password cannot be left blank";
+            echo "<script type='text/javascript'>alert('$message');</script>";
+            return false;
+        }
+        else if(strcmp($password,$pass)!=0){
+            $message = "The passwords do not match";
+            echo "<script type='text/javascript'>alert('$message');</script>";
+            return false;
+        }
+
+        return true;
+    }
+?>

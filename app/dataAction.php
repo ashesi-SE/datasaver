@@ -6,11 +6,12 @@
  * Time: 11:03
  */
 
-	DEFINE('DBUSER', 'root');
-    DEFINE('DBPW', 'Dream1234');
+	DEFINE('DBUSER', 'csashesi_ma15');
+    DEFINE('DBPW', 'db!bed26a');
     DEFINE('DBHOST', 'localhost');
-    DEFINE('DBNAME', 'datasaver');
-   
+    DEFINE('DBNAME', 'csashesi_mohammed-abdulai');
+
+
 	
 	$conn = mysql_connect(DBHOST, DBUSER, DBPW);
     
