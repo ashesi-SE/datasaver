@@ -153,7 +153,7 @@
             $message = "Name fields cannot be blank";
             echo "<script type='text/javascript'>alert('$message');</script>";
             return false;}
-        else if (!preg_match("/^[a-zA-Z ]*$/",$name)){
+        else if (!preg_match("/^[- a-zA-Z ]*$/",$name)){
             $message = "Name fields must contain only alphabets";
             echo "<script type='text/javascript'>alert('$message');</script>";
             return false;

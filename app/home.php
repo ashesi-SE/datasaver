@@ -78,14 +78,13 @@
 			var filetype = document.getElementById("fileType").value;
 			var description = document.getElementById("descrip").value;
 			var date = Date();
-			alert(date);
 			
 			var u = "dataAction.php?cmd=4&fName="+filename+"&description="+description+"&fileType="+filetype+"&fullname="+fullname+"&email="+email+"&contact="+contact;
 				
 			var r = syncAjax(u);
 					
 			if(r.result == 0){
-				// not successful
+                alert("Sorry, file could not be added. Please try again.")
 			}else if(r.result ==1){
 				//successful
 				location.reload();
@@ -99,40 +98,42 @@
 <body>
     <!-- Navigation Bar, fixed to top -->
 
-    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-            </div>
-        <div class="container-fluid">
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-left">
-                    <a data-toggle='modal' data-target='#addModal' href='#'><button class="btn btn-success navbar-btn" >Add New Post</button></a>
-                        
+    <nav class="navbar navbar-default" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-left">
+            <li><a data-toggle='modal' data-target='#addModal' href="#"><button class="btn btn-success navbar-btn" >Add New Post</button></a></li>
+            <!-- <li><a data-toggle='modal' data-target='#addModal' href='#'><button class="btn btn-success navbar-btn" >Add New Post</button></a></li> -->
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Logged in as:
+            <?php 
+             echo $_SESSION['firstname']." ";
+             echo $_SESSION['lastname'];
+            ?>
+            </a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Options<b class="caret"></b></a>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="User_Page.php">My Files</a></li>
+                    <li class="divider"></li>
+                    <li><a href="index.php">Logout</a></li>
                 </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">Logged in as: 
-                    <?php 
-                         echo $_SESSION['firstname']." ";
-                         echo $_SESSION['lastname'];
-                     ?>
-                    </a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle " data-toggle="dropdown">Options<span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="User_Page.php">My Files</a></li>
-                            <li class="divider"></li>
-                            <li><a href="index.php">Logout</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+            </li>
+        </ul>
+    </div>
+    </nav><!-- /.navbar-collapse -->
+
         <!-- add Modal -->
      <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 				  <div class="modal-dialog">
@@ -171,12 +172,12 @@
 					</div>
 				  </div>
 			</div> 
+
     <div id="wrapper">
         <div class="col-xs-10 col-xs-offset-1  col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
             <div >
-                
                 <form action= "results.php" method = "post" id="searchform">
-                    <div class="text-center jumbotron">
+                    <div class="text-center">
                         <img src="assets/img/data_saver.png" class="text-center">
                     </div>
                     <div class="input-group col-xs-12 padding-10">
@@ -193,7 +194,7 @@
 				<div  class="col-sm-8 col-sm-offset-2 text-center">
 					<h3>Recently Added</h3>
 				</div>
-				<table class="table table-bordered table-hover">
+				<table class="table table-hover">
 					<th>File Name </th>
 					<th>File Description </th>
 					<th> User Name </th>

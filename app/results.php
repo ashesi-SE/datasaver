@@ -78,41 +78,58 @@
 </head>
 
 <body>
-	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-        <div class="container-fluid">
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">Logged in as: 
-                        <?php 
-                             echo $_SESSION['firstname']." ";
-                             echo $_SESSION['lastname'];
-                        ?>
-                    </a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Options
-                            <span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="User_Page.php">My Files</a></li>
-                            
-                            <li class="divider"></li>
-                            <li><a href="index.html">Logout</a></li>
-                        </ul>
-                    </li>
+	    <nav class="navbar navbar-default" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-left">
+            <li><a href="home.php">Home</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Logged in as:
+            <?php 
+             echo $_SESSION['firstname']." ";
+             echo $_SESSION['lastname'];
+            ?>
+            </a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Options<b class="caret"></b></a>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="User_Page.php">My Files</a></li>
+                    <li class="divider"></li>
+                    <li><a href="index.php">Logout</a></li>
                 </ul>
-            </div><!-- /.navbar-collapse -->
-        </div><!-- /.container-fluid -->
-    </nav>
+            </li>
+        </ul>
+    </div>
+    </nav><!-- /.navbar-collapse -->
     
  
 
 <div id = "container">
+
+
    <div  class="col-sm-8 col-sm-offset-2 text-center">
-					<h3>Recently Added</h3>
-				</div>
+                <div class='text-center'>
+                    <img src='assets/img/data_saver.png' class='text-center'>
+                </div>
+				<h3>Results:</h3>
+	</div>
 				
 					
                 <?php 
 				$info = mysql_fetch_array($result);
+
+
 				
 				if(!$info){
 					echo "<table class='table'><tr><td class='text-center'>No results found</td></tr>";

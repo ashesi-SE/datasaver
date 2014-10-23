@@ -148,41 +148,41 @@
 	<body>
 		<!-- Navigation Bar, fixed to top -->
 
-		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="bs-example-navbar-collapse-1">
-						<span class="sr-only">Toggle navigation</span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-				</div>
-			<div class="container-fluid">
-				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-					<ul class="nav navbar-nav navbar-left">
-						<li><a href="home.php">Home</a></li>
-						
-					</ul>
-					<ul class="nav navbar-nav navbar-right">
-						<li><a href="#">Logged in as: 
-						<?php 
-							 echo $_SESSION['firstname']." ";
-							 echo $_SESSION['lastname'];
-						 ?>
-						</a></li>
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle " data-toggle="dropdown">Options<span class="caret"></span></a>
-							<ul class="dropdown-menu" role="menu">
-								<li><a href="#">My Files</a></li>
-								
-								<li class="divider"></li>
-								<li><a href="index.php">Logout</a></li>
-							</ul>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</nav>
+	    <nav class="navbar navbar-default" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-left">
+            <li><a href="home.php">Home</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Logged in as:
+            <?php 
+             echo $_SESSION['firstname']." ";
+             echo $_SESSION['lastname'];
+            ?>
+            </a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Options<b class="caret"></b></a>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="home.php">Home</a></li>
+                    <li class="divider"></li>
+                    <li><a href="index.php">Logout</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    </nav><!-- /.navbar-collapse -->
+
 		<div class="text-center jumbotron">
 							<img src="assets/img/data_saver.png" class="text-center">
 						</div>
@@ -195,10 +195,11 @@
 				
 					
 					<div  class="col-sm-8 col-sm-offset-2">
-					<table class="table table-bordered table-hover">
+					<table class="table  table-hover">
 						<th>File Name </th>
 						<th>File Description </th>
-						<th></th>
+						<th>Edit</th>
+						<th>Delete</th>
 						<?php
 							$info = mysql_fetch_array($result);
 							if(!$info){
@@ -246,7 +247,7 @@
 						</table>
 					  </div>
 					  <div class="modal-footer">
-						<button type="button" onclick="saveUpdate()" class="btn btn-primary">Edit</button>
+						<button type="button" onclick="saveUpdate()" class="btn btn-primary">Save Changes</button>
 						<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
 					  </div>
 					</div>
@@ -261,7 +262,7 @@
 					<h4 class="modal-title" id="myModalLabel">Delete File</h4>
 				  </div>
 				  <div class="modal-body">
-				   <h3>Are You Sure you want to delete</h3>
+				   <h3>Are you sure you want to delete this file?</h3>
 				   
 				   <input type="hidden" value="" id="deleteId">
 				  </div>

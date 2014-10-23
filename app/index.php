@@ -104,13 +104,7 @@
 <body>
     <!-- Navigation Bar, fixed to top -->
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-        <div class="container-fluid">
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="sign_up.php">Don't Have An Account? Sign Up Here</a></li>
-                </ul>
-            </div>
-        </div>
+
     </nav>
 
     <div id="wrapper">
@@ -128,7 +122,10 @@
                     
                     <div class="btn-group, text-center">
                         <!-- <a href="home.html" class="btn btn-lg btn-primary">Login</a> -->
-                        <input class="btn btn-lg btn-primary" type="submit" name="login_btn" id="login_btn" variable="Login">
+                        <input class="btn btn-lg btn-primary" type="submit" name="login_btn" id="login_btn" value="Login">
+                    </div>
+                    <div class="text-center">
+                        <a href="sign_up.php" class="forget">Don't have an account? Sign Up Here</a>
                     </div>
                 </form>
             </div>
