@@ -3,11 +3,16 @@
     if (!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
         header ("Location: index.php");
     }
-
+/*
     DEFINE('DBUSER', 'csashesi_ma15');
     DEFINE('DBPW', 'db!bed26a');
     DEFINE('DBHOST', 'localhost');
-    DEFINE('DBNAME', 'csashesi_mohammed-abdulai');
+    DEFINE('DBNAME', 'csashesi_mohammed-abdulai');*/
+	
+	DEFINE('DBUSER', 'root');
+    DEFINE('DBPW', 'Dream1234');
+    DEFINE('DBHOST', 'localhost');
+    DEFINE('DBNAME', 'datasaver');
 
     $search = "";
     $errorMessage = "";
@@ -16,7 +21,7 @@
     if($_SERVER["REQUEST_METHOD"] == "POST"){
 
         $search = $_POST[search];
-        echo $search;
+    //   echo $search;
 
         $conn = mysql_connect(DBHOST, DBUSER, DBPW);
 
@@ -87,8 +92,8 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Options
                             <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">My Files</a></li>
-                            <li><a href="#">My Account</a></li>
+                            <li><a href="User_Page.php">My Files</a></li>
+                            
                             <li class="divider"></li>
                             <li><a href="index.html">Logout</a></li>
                         </ul>
@@ -100,41 +105,44 @@
     
  
 
-<div id = "wrapper">
-    <div class="col-xs-10 col-xs-offset-1  col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
-        <div class="signup">
-            <div class="text-center">
-                <img src="assets/img/data_saver.png" class="text-center">
-            </div>
-            <div class="container-fluid">
-                <div class="row">
-    	            <div  class="col-sm-8 col-sm-offset-2 searchlist">
-    		            <div class="searcheditem">
-                            <?php 
-                               while ($info = mysql_fetch_array($result)) {
-                                    $file_name = $info['name'];
-                                    $description = $info['description'];
-                                    $full_name = $info['full_name'];
-                                    $email = $info['email'];
-                                    $contact = $info['contact']; 
-                            ?>
-                                    <h3><?php echo $file_name ?></h3>
-                                    <p><?php echo $description ?></p>
-                                    <p><?php echo $full_name ?></p>
-                                    <ul class='list-unstyled list-inline dateComments'>
-                                        <li><span class='glyphicon glyphicon-earphone'></span>&#32; Contact Number: <?php echo $contact ?></li>
-                                        <li><a href="mailto:<?php echo $email ?>"><span class="glyphicon glyphicon-envelope"></span>&#32;<?php echo $email ?></a>
-                                        </li>
-                                    </ul> 
-                            <?php
-                                } 
-                             ?>
-                        </div>
-    	           </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<div id = "container">
+   <div  class="col-sm-8 col-sm-offset-2 text-center">
+					<h3>Recently Added</h3>
+				</div>
+				
+					
+                <?php 
+				$info = mysql_fetch_array($result);
+				
+				if(!$info){
+					echo "<table class='table'><tr><td class='text-center'>No results found</td></tr>";
+					echo "<tr ><td class='text-center'><a href='home.php'>Go Back Home </a></td></tr>";
+					echo "</table>";
+				}else{
+				
+				echo"<table class='table table-bordered table-hover'>
+					<th>File Name </th>
+					<th>File Description </th>
+					<th> User Name </th>
+					<th> Email </th>
+					<th> Phone </th>";
+					
+				while ($info ) {
+					
+                    $email = $info['email'];
+                  //  $contact = $info['contact']; 
+					
+					echo "<tr><td id='filename'>".$info['name']."</td>";
+					echo "<td id='description'>".$info['description']."</td>";
+					echo "<td id='fullname'>".$info['full_name']."</td>";
+					echo "<td id='email'><a href='mailto:$email'>".$info['email']."</a></td>";
+					echo "<td id='contact'>".$info['contact']."</td></tr>";
+									
+					$info = mysql_fetch_array($result);
+					}
+				}	
+                    //$_SESSION['deleteId'] = $id;
+               ?>
 </div>
 <!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
     <!-- JQUERY SCRIPTS -->

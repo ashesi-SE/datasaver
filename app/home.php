@@ -3,12 +3,17 @@
     if (!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
         header ("Location: index.php");
     }
-
+/*
     DEFINE('DBUSER', 'csashesi_ma15');
     DEFINE('DBPW', 'db!bed26a');
     DEFINE('DBHOST', 'localhost');
-    DEFINE('DBNAME', 'csashesi_mohammed-abdulai');
-
+    DEFINE('DBNAME', 'csashesi_mohammed-abdulai');*/
+	
+	DEFINE('DBUSER', 'root');
+    DEFINE('DBPW', 'Dream1234');
+    DEFINE('DBHOST', 'localhost');
+    DEFINE('DBNAME', 'datasaver');
+	
     $conn = mysql_connect(DBHOST, DBUSER, DBPW);
 
     if (!$conn) {
@@ -22,10 +27,22 @@
         $name = $_POST[file_name];
         $file_type = "pdf";
         $description = $_POST[description];
-        $fullname = $_SESSION['firstname']." ".$_SESSION['lastname'];
-        $email = $_SESSION['email'];
-        $contact = $_SESSION['phone'];
+		$username = $_SESSION['username'];
+        $fullnameS = $_SESSION['firstname']." ".$_SESSION['lastname'];
+        $emailS = $_SESSION['email'];
+        $contactS = $_SESSION['phone'];
     }
+
+    $db = mysql_select_db(DBNAME, $conn) or die(mysql_error());
+
+        if($db){
+            $query = "SELECT * FROM data_saver_files ORDER BY date_added DESC LIMIT 5" ;
+            $recent = mysql_query($query);
+            $num_rows = mysql_num_rows($recent);
+        }
+        else{
+            $errorMessage = "Error";
+        }
 ?>
 
 <!DOCTYPE html>
@@ -35,16 +52,48 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Data Saver : Home</title>
-    <!--icon-->
+    
     <link href="assets/img/data_saver.png" rel="icon" />
-    <!-- BOOTSTRAP STYLES-->
     <link href="assets/css/bootstrap.css" rel="stylesheet" />
-    <!-- FONTAWESOME STYLES-->
     <link href="assets/css/font-awesome.css" rel="stylesheet" />
-    <!-- CUSTOM STYLES-->
     <link href="assets/css/datasaver.css" rel="stylesheet" />
-    <!-- GOOGLE FONTS-->
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+    <!--<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' /> -->
+	
+	<script>
+		
+		function syncAjax(u){
+			var obj= $.ajax(
+				{url:u,
+				 async:false
+				}
+			);
+			return $.parseJSON(obj.responseText);
+		}
+		
+		function saveAdd(){
+			var fullname = document.getElementById("uFullname").value;
+			var contact = document.getElementById("uContact").value;
+			var email = document.getElementById("uEmail").value;
+			var filename = document.getElementById("fileName").value;
+			var filetype = document.getElementById("fileType").value;
+			var description = document.getElementById("descrip").value;
+			var date = Date();
+			alert(date);
+			
+			var u = "dataAction.php?cmd=4&fName="+filename+"&description="+description+"&fileType="+filetype+"&fullname="+fullname+"&email="+email+"&contact="+contact;
+				
+			var r = syncAjax(u);
+					
+			if(r.result == 0){
+				// not successful
+			}else if(r.result ==1){
+				//successful
+				location.reload();
+			}
+		}
+				
+	</script>
+
 </head>
 
 <body>
@@ -62,9 +111,8 @@
         <div class="container-fluid">
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-left">
-                        <FORM METHOD="LINK" ACTION="add.php">
-                            <INPUT class="btn btn-success navbar-btn" TYPE="submit" VALUE="Add A New File">
-                        </FORM>
+                    <a data-toggle='modal' data-target='#addModal' href='#'><button class="btn btn-success navbar-btn" >Add a File</button></a>
+                        
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="#">Logged in as: 
@@ -76,8 +124,7 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle " data-toggle="dropdown">Options<span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">My Files</a></li>
-                            <li><a href="#">My Account</a></li>
+                            <li><a href="User_Page.php">My Files</a></li>
                             <li class="divider"></li>
                             <li><a href="index.php">Logout</a></li>
                         </ul>
@@ -86,11 +133,47 @@
             </div>
         </div>
     </nav>
-        
-    
+        <!-- add Modal -->
+     <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				  <div class="modal-dialog">
+					<div class="modal-content">
+					  <div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+						<h4 class="modal-title" id="myModalLabel">Add FileName</h4>
+					  </div>
+					  <div class="modal-body">
+						<table class="table table-bordered table-hover">
+							
+							<input type="text" value="<?php echo $_SESSION['firstname']." ".$_SESSION['lastname']; ?>" id="uFullname">
+							<input type="hidden" value="<?php echo $_SESSION['phone']; ?>" id="uContact">
+							<input type="hidden" value="<?php echo $_SESSION['email']; ?>" id="uEmail">
+							
+							<tr>
+								<th>File name</th>
+								<td><input type="text" value="" id="fileName" class="field "></td>
+							</tr>
+							
+							<tr>
+								<th>File Type</th>
+								<td><input type="text" value="" id="fileType" class="field "></td>
+							</tr>
+							<tr>
+								<th >Description </th>
+								<td><input type="text" value="" id="descrip" class="field"></td>
+							</tr>
+							
+						</table>
+					  </div>
+					  <div class="modal-footer">
+						<button type="button" onclick="saveAdd()" class="btn btn-primary">Add</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+					  </div>
+					</div>
+				  </div>
+			</div> 
     <div id="wrapper">
         <div class="col-xs-10 col-xs-offset-1  col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
-            <div class="signup">
+            <div >
                 
                 <form action= "results.php" method = "post" id="searchform">
                     <div class="text-center">
@@ -99,87 +182,51 @@
                     <div class="input-group col-xs-12 padding-10">
                         <input id="btn-input" name = "search" type="text" class="form-control input-md margin-10" placeholder="Search...">
                     </div>
-                    
-                   <!--  <div class="btn-group btn-group-justified">
-
-                         <div class="btn-group">
-                            <button type="button" class="btn btn-primary btn-lg">
-                                <span class="glyphicon glyphicon-search"></span> Search
-                            </button>
-                         </div>
-                    </div> -->
                     <input class="margin-10 padding-10 col-xs-12 btn btn-primary" type="submit" value="Search" name="submit" id="submit">
                 </form>
-                
+               
             </div>
         </div>
     </div>
     
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span aria-hidden="true">&times;</span>
-                        <span class="sr-only">Close</span>
-                    </button>
-                    <h4 class="modal-title, text-center">Add A New File</h4>
-                </div>
-
-                <div class="modal-body">
-                    <form method = "post" action= "home.php">
-
-                        <div class="input-group col-xs-12 padding-10">
-                            <input id="btn-input" name = "file_name"type="text" class="form-control input-md margin-10" placeholder="File Name" value: "A Thousand Splendid Suns">
-                            <input id="btn-input" name = "description" type="text" class="form-control input-md margin-10" placeholder="Short Description">
-
-                            <form class="form">
-                                <div class="form-group">
-                                    <label class="radio-inline">File Type: </label>
-                                    <label class="radio-inline">
-                                        <input type="radio" id="1" name="pdf" value="pdf"> PDF
-                                    </label>
-                                    <label class="radio-inline">
-                                        <input type="radio" id="2" name="epub" value="pdf"> EPUB
-                                    </label>
-                                    <label class="radio-inline">
-                                        <input type="radio" id="3" name="video" value="pdf"> Video
-                                    </label>
-                                    <label class="radio-inline">
-                                        <input type="radio" id="4" name="audio" value="pdf"> Audio
-                                    </label>
-                                    <label class="radio-inline">
-                                        <input type="radio" id="5" name="image" value="pdf"> Image
-                                    </label> 
-                                </div>
-                            </form>
-
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <input class="btn btn-primary" data-dismiss="modal" type="submit" onClick="$('form').submit();">
-                        </div>   
-                    </form>
-                </div>
-
+        <div class="container">
+				<div  class="col-sm-8 col-sm-offset-2 text-center">
+					<h3>Recently Added</h3>
+				</div>
+				<table class="table table-bordered table-hover">
+					<th>File Name </th>
+					<th>File Description </th>
+					<th> User Name </th>
+					<th> Email </th>
+					<th> Phone </th>
+					
                 <?php 
-                    $query = "INSERT INTO data_saver_files(name, type, description, full_name, email, contact) VALUES('$name', '$file_type', '$description','$fullname', '$email', '$contact')";
-                    echo "alert($query)";
-                    if(!mysql_query($query, $conn)){
-                        die('Error: ' . mysql_error());
-                    }
+				$info = mysql_fetch_array($recent);
+				while ($info ) {
+					
+					$id = $info['file_id'];
+                    /*$file_name = $info['name'];
+                    $description = $info['description'];
+                    $full_name = $info['full_name'];*/
+                    $email = $info['email'];
+                  //  $contact = $info['contact']; 
+					
+					echo "<tr><td id='filename'>".$info['name']."</td>";
+					echo "<td id='description'>".$info['description']."</td>";
+					echo "<td id='fullname'>".$info['full_name']."</td>";
+					echo "<td id='email'><a href='mailto:$email'>".$info['email']."</a></td>";
+					echo "<td id='contact'>".$info['contact']."</td></tr>";
+									
+					$info = mysql_fetch_array($recent);
+					}
+                    //$_SESSION['deleteId'] = $id;
+               ?>
+           </table>
 
-                    echo "File Post Succesful";
-                    mysql_close($conn);
-
-                 ?>
-
-                
-
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+        </div>
+    </div>
+    
+    
 
     <!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
     <!-- JQUERY SCRIPTS -->
@@ -188,7 +235,15 @@
     <script src="assets/js/bootstrap.min.js"></script>
     <!-- CUSTOM SCRIPTS -->
     <script src="assets/js/custom.js"></script>
+    <script src="assets/js/custom.js"></script>
+    <script>
 
+    // function sendRequest() {
+    //             new Ajax.Updater('show_results', 'results.php', { method: 'post', parameters: $('searchform').serialize() });
+    //         }
+    // </script>
+   
+         
 
 </body>
 
