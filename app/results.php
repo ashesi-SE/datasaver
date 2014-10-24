@@ -8,6 +8,11 @@
     DEFINE('DBPW', 'db!bed26a');
     DEFINE('DBHOST', 'localhost');
     DEFINE('DBNAME', 'csashesi_mohammed-abdulai');
+	
+	// DEFINE('DBUSER', 'root');
+ //    DEFINE('DBPW', 'Dream1234');
+ //    DEFINE('DBHOST', 'localhost');
+ //    DEFINE('DBNAME', 'datasaver');
 
     $search = "";
     $errorMessage = "";
@@ -16,7 +21,7 @@
     if($_SERVER["REQUEST_METHOD"] == "POST"){
 
         $search = $_POST[search];
-        echo $search;
+    //   echo $search;
 
         $conn = mysql_connect(DBHOST, DBUSER, DBPW);
 
@@ -73,65 +78,88 @@
 </head>
 
 <body>
-	<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-        <div class="container-fluid">
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">Logged in as: 
-                        <?php 
-                             echo $_SESSION['firstname']." ";
-                             echo $_SESSION['lastname'];
-                        ?>
-                    </a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Options
-                            <span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="User_Page.php">My Files</a></li>
-                            <li><a href="#">My Account</a></li>
-                            <li class="divider"></li>
-                            <li><a href="index.html">Logout</a></li>
-                        </ul>
-                    </li>
+	    <nav class="navbar navbar-default" role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-left">
+            <li><a href="home.php">Home</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Logged in as:
+            <?php 
+             echo $_SESSION['firstname']." ";
+             echo $_SESSION['lastname'];
+            ?>
+            </a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Options<b class="caret"></b></a>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="User_Page.php">My Files</a></li>
+                    <li class="divider"></li>
+                    <li><a href="index.php">Logout</a></li>
                 </ul>
-            </div><!-- /.navbar-collapse -->
-        </div><!-- /.container-fluid -->
-    </nav>
+            </li>
+        </ul>
+    </div>
+    </nav><!-- /.navbar-collapse -->
     
  
 
 <div id = "container">
-    <div class="row">
-    <div class="col-xs-10 col-xs-offset-1  col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
-        
-            <div class="text-center">
-                <img src="assets/img/data_saver.png" class="text-center">
-            </div>
 
-            <?php  while ($info = mysql_fetch_array($result)) { ?>
-    	            <div  class="col-sm-8 col-sm-offset-2 searchlist">
-    		            <div class="searcheditem">
-                            <?php 
-                                    $file_name = $info['name'];
-                                    $description = $info['description'];
-                                    $full_name = $info['full_name'];
-                                    $email = $info['email'];
-                                    $contact = $info['contact']; 
-                            ?>
-                                    <h3><?php echo $file_name ?></h3>
-                                    <p><?php echo $description ?></p>
-                                    <p><?php echo $full_name ?></p>
-                                    <ul class='list-unstyled list-inline dateComments'>
-                                        <li><span class='glyphicon glyphicon-earphone'></span>&#32; Contact Number: <?php echo $contact ?></li>
-                                        <li><a href="mailto:<?php echo $email ?>"><span class="glyphicon glyphicon-envelope"></span>&#32;<?php echo $email ?></a>
-                                        </li>
-                                    </ul> 
-                        </div>
-    	           </div>
-            <?php } ?>
 
-    </div>
-</div>
+   <div  class="col-sm-8 col-sm-offset-2 text-center">
+                <div class='text-center'>
+                    <img src='assets/img/data_saver.png' class='text-center'>
+                </div>
+				<h3>Results:</h3>
+	</div>
+				
+					
+                <?php 
+				$info = mysql_fetch_array($result);
+
+
+				
+				if(!$info){
+					echo "<table class='table'><tr><td class='text-center'>No results found</td></tr>";
+					echo "<tr ><td class='text-center'><a href='home.php'>Go Back Home </a></td></tr>";
+					echo "</table>";
+				}else{
+				
+				echo"<table class='table table-bordered table-hover'>
+					<th>File Name </th>
+					<th>File Description </th>
+					<th> User Name </th>
+					<th> Email </th>
+					<th> Phone </th>";
+					
+				while ($info ) {
+					
+                    $email = $info['email'];
+                  //  $contact = $info['contact']; 
+					
+					echo "<tr><td id='filename'>".$info['name']."</td>";
+					echo "<td id='description'>".$info['description']."</td>";
+					echo "<td id='fullname'>".$info['full_name']."</td>";
+					echo "<td id='email'><a href='mailto:$email'>".$info['email']."</a></td>";
+					echo "<td id='contact'>".$info['contact']."</td></tr>";
+									
+					$info = mysql_fetch_array($result);
+					}
+				}	
+                    //$_SESSION['deleteId'] = $id;
+               ?>
 </div>
 <!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
     <!-- JQUERY SCRIPTS -->
